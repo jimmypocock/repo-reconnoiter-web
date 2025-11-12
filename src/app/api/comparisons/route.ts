@@ -26,22 +26,12 @@ export async function GET(request: NextRequest) {
       headers["Authorization"] = `Bearer ${API_KEY}`;
     }
 
-    // Debug logging
-    console.log("=== API Route Debug ===");
-    console.log("Target URL:", url);
-    console.log("API_KEY exists:", !!API_KEY);
-    console.log("API_KEY length:", API_KEY?.length);
-    console.log("Headers:", JSON.stringify(headers, null, 2));
-
     // Fetch from Rails API
     const response = await fetch(url, {
       method: "GET",
       headers,
       cache: "no-store", // Disable caching for fresh data
     });
-
-    console.log("Response status:", response.status);
-    console.log("Response headers:", JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2));
 
     if (!response.ok) {
       const errorText = await response.text();
