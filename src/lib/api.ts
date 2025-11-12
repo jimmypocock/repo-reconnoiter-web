@@ -1,9 +1,11 @@
 /**
  * API Configuration
  * Base URL and helper functions for API calls
+ *
+ * Calls Next.js API routes which proxy to Rails API with API key
  */
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 /**
  * Fetch wrapper with error handling
