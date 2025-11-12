@@ -14,14 +14,16 @@ export async function GET(request: NextRequest) {
     const queryString = searchParams.toString();
     const url = `${API_URL}/comparisons${queryString ? `?${queryString}` : ""}`;
 
-    // Prepare headers
+    // Prepare headers with User-Agent (required for Cloudflare)
     const headers: HeadersInit = {
       "Content-Type": "application/json",
+      "User-Agent": "Mozilla/5.0 (compatible; RepoReconnoiter/1.0)",
+      "Accept": "application/json",
     };
 
     // Add API key if available
     if (API_KEY) {
-      headers["authorization"] = `Bearer ${API_KEY}`;
+      headers["Authorization"] = `Bearer ${API_KEY}`;
     }
 
     // Debug logging
