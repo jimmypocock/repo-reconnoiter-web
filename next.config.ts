@@ -11,24 +11,28 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
-    const isProduction = process.env.NODE_ENV === "production";
-
-    // In development, skip strict CSP to allow Next.js dev tools (HMR, inline scripts, etc.)
-    if (!isProduction) {
-      return [];
-    }
-
-    // Production: Apply strict security headers
     return [
       {
         source: "/:path*",
         headers: [
-          // Override Vercel's default wildcard CORS for static assets
           {
-            key: "Access-Control-Allow-Origin",
-            value: "https://reporeconnoiter.com",
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline'", // Required for Next.js internal scripts
+              "style-src 'self' 'unsafe-inline'", // Required for Tailwind/Next.js styles
+              "img-src 'self' data: https:", // GitHub avatars from HTTPS sources
+              "font-src 'self' data:",
+              "connect-src 'self' https://api.reporeconnoiter.com", // Your API domain only
+              "frame-ancestors 'self'", // Prevents clickjacking
+              "base-uri 'self'", // Prevents base tag injection
+              "form-action 'self'", // Prevents form hijacking
+              "upgrade-insecure-requests", // Forces HTTPS
+              "object-src 'none'", // Blocks Flash/plugins
+              "media-src 'self'",
+            ].join("; "),
           },
-          // Prevent clickjacking attacks
+          // Prevent clickjacking
           {
             key: "X-Frame-Options",
             value: "SAMEORIGIN",
@@ -43,33 +47,15 @@ const nextConfig: NextConfig = {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
           },
-          // Control which browser features and APIs can be used
+          // Control browser features/APIs
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
           },
-          // Force HTTPS connections (31536000 seconds = 1 year)
+          // Force HTTPS (1 year)
           {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains",
-          },
-          // Content Security Policy - Maximum XSS protection
-          {
-            key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self'", // No unsafe directives - fortress mode
-              "style-src 'self'", // No inline styles - Tailwind v4 compiles to CSS file
-              "img-src 'self' data: https:", // Allow images from HTTPS (GitHub avatars, etc)
-              "font-src 'self' data:",
-              "connect-src 'self' https://api.reporeconnoiter.com", // Your API domain only
-              "frame-ancestors 'self'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "upgrade-insecure-requests", // Force HTTPS
-              "object-src 'none'", // Block plugins
-              "media-src 'self'", // Only self-hosted media
-            ].join("; "),
           },
         ],
       },
