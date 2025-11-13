@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const API_URL = process.env.REPO_RECONNOITER_API_URL;
 const API_KEY = process.env.API_KEY;
 
 /**
  * GET /comparisons
- * Proxy to backend API with API key authentication
+ * Proxy to backend API with API key and optional user JWT authentication
  */
 export async function GET(request: NextRequest) {
   try {
+    // Get user session (if authenticated)
+    const session = await getServerSession(authOptions);
+
     // Forward query parameters
     const searchParams = request.nextUrl.searchParams;
     const queryString = searchParams.toString();
@@ -21,9 +26,14 @@ export async function GET(request: NextRequest) {
       "Accept": "application/json",
     };
 
-    // Add API key if available
+    // Add API key (app-level authentication)
     if (API_KEY) {
       headers["Authorization"] = `Bearer ${API_KEY}`;
+    }
+
+    // Add user JWT token if user is authenticated (user-level authentication)
+    if (session?.railsJwt) {
+      headers["X-User-Token"] = session.railsJwt;
     }
 
     // Fetch from Rails API

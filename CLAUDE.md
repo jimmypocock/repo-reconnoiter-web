@@ -38,7 +38,7 @@ The app runs in "fortress mode" with strict security headers configured in `next
 ## Development Commands
 
 ```bash
-# Development server on port 3001 (not 3000 - avoids Rails backend conflict)
+# Development server on port 3000 (default)
 pnpm dev
 
 # Production build
@@ -60,7 +60,7 @@ Create `.env.local` with:
 NEXT_PUBLIC_API_URL=/api
 
 # Server-side: Backend Rails API endpoint
-REPO_RECONNOITER_API_URL=http://localhost:3000/api/v1  # development
+REPO_RECONNOITER_API_URL=http://localhost:3001/api/v1  # development
 # REPO_RECONNOITER_API_URL=https://api.reporeconnoiter.com/v1  # production
 
 # Server-side: API authentication (NEVER prefix with NEXT_PUBLIC_)
@@ -96,7 +96,7 @@ import { ComparisonCard } from "@/components/comparison-card";
 
 ## Critical Technical Details
 
-1. **Port 3001**: Configured in package.json to avoid conflicts with Rails backend on port 3000
+1. **Port 3000**: Default Next.js port. Rails backend runs on port 3001 in development
 
 2. **Tailwind v4**: No `tailwind.config.ts` file - configuration inline in CSS using `@theme`
 

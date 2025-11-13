@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useComparisons } from "@/hooks/use-comparisons";
 import { ComparisonCard } from "@/components/comparison-card";
 import { Pagination } from "@/components/pagination";
+import { AuthButton } from "@/components/auth-button";
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,24 +19,27 @@ export default function Home() {
       {/* Header */}
       <header className="border-b border-slate-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            {/* Logo */}
-            <Image
-              src="/logo.svg"
-              alt="Repo Reconnoiter Logo"
-              width={48}
-              height={48}
-              className="h-12 w-12"
-              priority
-            />
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
-                Repo Reconnoiter
-              </h1>
-              <p className="mt-1 text-sm text-blue-600 dark:text-zinc-400">
-                AI-Powered Open Source Intelligence
-              </p>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-4">
+              {/* Logo */}
+              <Image
+                src="/logo.svg"
+                alt="Repo Reconnoiter Logo"
+                width={48}
+                height={48}
+                className="h-12 w-12"
+                priority
+              />
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+                  Repo Reconnoiter
+                </h1>
+                <p className="mt-1 text-sm text-blue-600 dark:text-zinc-400">
+                  AI-Powered Open Source Intelligence
+                </p>
+              </div>
             </div>
+            <AuthButton />
           </div>
           <p className="mt-4 text-lg text-slate-600 dark:text-zinc-300">
             Discover, analyze, and compare GitHub repositories to make better
