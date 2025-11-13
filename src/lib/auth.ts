@@ -29,9 +29,9 @@ export const authOptions: NextAuthOptions = {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${API_KEY}`,
+              Authorization: `Bearer ${API_KEY}`,
               "User-Agent": "Mozilla/5.0 (compatible; RepoReconnoiter/1.0)",
-              "Accept": "application/json",
+              Accept: "application/json",
             },
             body: JSON.stringify({
               github_token: account.access_token,
@@ -71,7 +71,7 @@ export const authOptions: NextAuthOptions = {
 
       if (token.user) {
         // Add user data to session
-        session.user = token.user as any;
+        session.user = token.user;
       }
 
       if (token.railsJwt) {

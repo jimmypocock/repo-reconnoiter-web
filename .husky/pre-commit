@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "💅 Checking code formatting..."
+pnpm format:check || exit 1
+
+echo "✅ Format check passed!"
+echo "💡 Run 'pnpm check' before pushing to catch all issues"

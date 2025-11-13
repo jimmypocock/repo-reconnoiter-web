@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+.next
+out
+dist
+build
+
+# Misc
+.git
+.env*
+*.log
+coverage
+.vercel
+
+# Lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# claude files
+.claude

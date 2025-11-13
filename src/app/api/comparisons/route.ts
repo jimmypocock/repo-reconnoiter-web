@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       "User-Agent": "Mozilla/5.0 (compatible; RepoReconnoiter/1.0)",
-      "Accept": "application/json",
+      Accept: "application/json",
     };
 
     // Add API key (app-level authentication)
@@ -46,7 +46,10 @@ export async function GET(request: NextRequest) {
     if (!response.ok) {
       const errorText = await response.text();
       return NextResponse.json(
-        { error: `Backend API error: ${response.status} ${response.statusText}`, details: errorText },
+        {
+          error: `Backend API error: ${response.status} ${response.statusText}`,
+          details: errorText,
+        },
         { status: response.status }
       );
     }
@@ -60,7 +63,10 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("API route error:", error);
     return NextResponse.json(
-      { error: "Failed to fetch comparisons", message: error instanceof Error ? error.message : "Unknown error" },
+      {
+        error: "Failed to fetch comparisons",
+        message: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }

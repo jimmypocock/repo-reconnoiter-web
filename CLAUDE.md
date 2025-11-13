@@ -47,9 +47,43 @@ pnpm build
 # Production server
 pnpm start
 
-# Linting
-pnpm lint
+# Pre-commit checks (run before committing)
+pnpm check              # Runs format:check + type-check + lint + build
+
+# Individual checks
+pnpm format:check       # Check code formatting (Prettier)
+pnpm type-check         # TypeScript type checking
+pnpm lint               # ESLint checking
+
+# Auto-fix commands
+pnpm format             # Auto-format code with Prettier
+pnpm lint:fix           # Auto-fix ESLint issues
 ```
+
+## Pre-commit Workflow
+
+The project uses Husky for git hooks to maintain code quality:
+
+**Automated (on commit):**
+- Pre-commit hook runs `format:check` (fast, ~1 second)
+- Prevents committing unformatted code
+
+**Manual (before committing):**
+1. Finish coding
+2. Run `pnpm check` - checks everything:
+   - Format checking (Prettier)
+   - Type checking (TypeScript)
+   - Linting (ESLint)
+   - Build (catches hydration errors, imports, etc.)
+3. If issues found, fix with:
+   - `pnpm format` (auto-format)
+   - `pnpm lint:fix` (auto-fix lint)
+   - Manual fixes for type errors
+4. Run `pnpm check` again until it passes
+5. Commit (pre-commit hook validates formatting)
+6. Push
+
+**Philosophy:** Check everything manually when ready, not automatically on commit. This gives you control over when heavy checks run while still preventing unformatted code from being committed.
 
 ## Environment Configuration
 

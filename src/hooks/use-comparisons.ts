@@ -19,9 +19,7 @@ export function useComparisons(params: ComparisonsParams = {}) {
       if (otherParams.date) searchParams.set("date", otherParams.date);
       if (otherParams.sort) searchParams.set("sort", otherParams.sort);
 
-      return apiFetch<ComparisonsResponse>(
-        `/comparisons?${searchParams.toString()}`
-      );
+      return apiFetch<ComparisonsResponse>(`/comparisons?${searchParams.toString()}`);
     },
   });
 }

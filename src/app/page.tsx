@@ -42,8 +42,7 @@ export default function Home() {
             <AuthButton />
           </div>
           <p className="mt-4 text-lg text-slate-600 dark:text-zinc-300">
-            Discover, analyze, and compare GitHub repositories to make better
-            tech stack decisions.
+            Discover, analyze, and compare GitHub repositories to make better tech stack decisions.
           </p>
         </div>
       </header>
@@ -63,9 +62,7 @@ export default function Home() {
             <h3 className="font-semibold text-red-900 dark:text-red-200">
               Error loading comparisons
             </h3>
-            <p className="mt-2 text-sm text-red-700 dark:text-red-300">
-              {error.message}
-            </p>
+            <p className="mt-2 text-sm text-red-700 dark:text-red-300">{error.message}</p>
           </div>
         )}
 
@@ -84,9 +81,7 @@ export default function Home() {
             <div className="space-y-6">
               {data.data.length === 0 ? (
                 <div className="rounded-lg border border-zinc-200 bg-white p-12 text-center dark:border-zinc-800 dark:bg-zinc-900">
-                  <p className="text-zinc-600 dark:text-zinc-400">
-                    No comparisons found.
-                  </p>
+                  <p className="text-zinc-600 dark:text-zinc-400">No comparisons found.</p>
                 </div>
               ) : (
                 data.data.map((comparison) => (
@@ -113,8 +108,7 @@ export default function Home() {
       <footer className="mt-20 border-t border-slate-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-slate-500 dark:text-zinc-400">
-            © {new Date().getFullYear()} Repo Reconnoiter. AI-powered repository
-            analysis.
+            © {new Date().getFullYear()} Repo Reconnoiter. AI-powered repository analysis.
           </p>
         </div>
       </footer>

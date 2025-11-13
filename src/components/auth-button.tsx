@@ -2,6 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 /**
  * Authentication Button
@@ -24,14 +25,14 @@ export function AuthButton() {
     return (
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <img
+          <Image
             src={session.user.avatar_url}
             alt={session.user.github_username}
+            width={32}
+            height={32}
             className="h-8 w-8 rounded-full"
           />
-          <span className="text-sm font-medium">
-            {session.user.github_username}
-          </span>
+          <span className="text-sm font-medium">{session.user.github_username}</span>
           {session.user.admin && (
             <span className="rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-900 dark:text-blue-200">
               Admin

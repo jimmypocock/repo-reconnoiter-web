@@ -1,22 +1,18 @@
 import type { Comparison } from "@/types/api";
-import { cn } from "@/lib/utils";
 
 interface ComparisonCardProps {
   comparison: Comparison;
 }
 
 export function ComparisonCard({ comparison }: ComparisonCardProps) {
-  const formattedDate = new Date(comparison.created_at).toLocaleDateString(
-    "en-US",
-    {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    }
-  );
+  const formattedDate = new Date(comparison.created_at).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:border-blue-200 dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-blue-200 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
       {/* Header */}
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-zinc-100">
@@ -63,8 +59,8 @@ export function ComparisonCard({ comparison }: ComparisonCardProps) {
 
       {/* Recommended Repo */}
       {comparison.recommended_repo && (
-        <div className="mb-4 rounded-lg bg-blue-50 p-3 border border-blue-100 dark:bg-zinc-800/50">
-          <div className="text-xs font-medium uppercase tracking-wide text-blue-700 dark:text-zinc-400">
+        <div className="mb-4 rounded-lg border border-blue-100 bg-blue-50 p-3 dark:bg-zinc-800/50">
+          <div className="text-xs font-medium tracking-wide text-blue-700 uppercase dark:text-zinc-400">
             Recommended
           </div>
           <div className="mt-1 font-mono text-sm font-semibold text-slate-900 dark:text-zinc-100">
@@ -76,7 +72,7 @@ export function ComparisonCard({ comparison }: ComparisonCardProps) {
       {/* Repositories */}
       {comparison.repositories.length > 0 && (
         <div className="space-y-2">
-          <div className="text-xs font-medium uppercase tracking-wide text-slate-600 dark:text-zinc-400">
+          <div className="text-xs font-medium tracking-wide text-slate-600 uppercase dark:text-zinc-400">
             Repositories Analyzed
           </div>
           <div className="flex flex-wrap gap-2">
@@ -86,7 +82,7 @@ export function ComparisonCard({ comparison }: ComparisonCardProps) {
                 href={repo.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:border-blue-200 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:border-blue-200 hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               >
                 <span className="font-mono">{repo.full_name}</span>
                 {repo.stargazers_count > 0 && (

@@ -6,11 +6,7 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export function Pagination({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: PaginationProps) {
+export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
   const pages = generatePageNumbers(currentPage, totalPages);
 
   if (totalPages <= 1) return null;
@@ -25,7 +21,7 @@ export function Pagination({
           "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
           currentPage === 1
             ? "cursor-not-allowed bg-slate-100 text-slate-400 dark:bg-zinc-800 dark:text-zinc-600"
-            : "bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:border-zinc-700"
+            : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
         )}
       >
         Previous
@@ -48,8 +44,8 @@ export function Pagination({
               className={cn(
                 "h-10 w-10 rounded-lg text-sm font-medium transition-colors",
                 page === currentPage
-                  ? "bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
-                  : "bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:border-zinc-700"
+                  ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
+                  : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
               )}
             >
               {page}
@@ -66,7 +62,7 @@ export function Pagination({
           "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
           currentPage === totalPages
             ? "cursor-not-allowed bg-slate-100 text-slate-400 dark:bg-zinc-800 dark:text-zinc-600"
-            : "bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:border-zinc-700"
+            : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
         )}
       >
         Next
@@ -78,10 +74,7 @@ export function Pagination({
 /**
  * Generate page numbers with ellipsis
  */
-function generatePageNumbers(
-  currentPage: number,
-  totalPages: number
-): (number | "...")[] {
+function generatePageNumbers(currentPage: number, totalPages: number): (number | "...")[] {
   const pages: (number | "...")[] = [];
   const showEllipsisStart = currentPage > 3;
   const showEllipsisEnd = currentPage < totalPages - 2;
@@ -97,11 +90,7 @@ function generatePageNumbers(
   }
 
   // Show current page and neighbors
-  for (
-    let i = Math.max(2, currentPage - 1);
-    i <= Math.min(totalPages - 1, currentPage + 1);
-    i++
-  ) {
+  for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
     if (i !== 1 && i !== totalPages && !pages.includes(i)) {
       pages.push(i);
     }
