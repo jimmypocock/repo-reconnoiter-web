@@ -31,19 +31,22 @@ const nextConfig: NextConfig = {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains",
           },
-          // Content Security Policy - защита от XSS
+          // Content Security Policy - Maximum XSS protection
           {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'", // Next.js needs unsafe-inline for dev
-              "style-src 'self' 'unsafe-inline'", // Tailwind uses inline styles
-              "img-src 'self' data: https:", // Allow images from HTTPS sources (GitHub avatars, etc)
+              "script-src 'self'", // No unsafe directives - fortress mode
+              "style-src 'self'", // No inline styles - Tailwind v4 compiles to CSS file
+              "img-src 'self' data: https:", // Allow images from HTTPS (GitHub avatars, etc)
               "font-src 'self' data:",
-              "connect-src 'self' https://api.reporeconnoiter.com", // Your API domain
+              "connect-src 'self' https://api.reporeconnoiter.com", // Your API domain only
               "frame-ancestors 'self'",
               "base-uri 'self'",
               "form-action 'self'",
+              "upgrade-insecure-requests", // Force HTTPS
+              "object-src 'none'", // Block plugins
+              "media-src 'self'", // Only self-hosted media
             ].join("; "),
           },
         ],

@@ -42,6 +42,10 @@ export async function GET(request: NextRequest) {
     }
 
     const data = await response.json();
+
+    // Browser → Next.js is same-origin (reporeconnoiter.com → reporeconnoiter.com/api)
+    // Next.js → Rails is server-to-server (no CORS needed)
+    // Therefore: No CORS headers needed at all
     return NextResponse.json(data);
   } catch (error) {
     console.error("API route error:", error);
