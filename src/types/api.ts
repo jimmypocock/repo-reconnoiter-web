@@ -125,3 +125,94 @@ export interface ErrorMessage {
 }
 
 export type ComparisonWebSocketMessage = ProgressMessage | CompleteMessage | ErrorMessage;
+
+/**
+ * Profile Types
+ */
+
+export interface UserProfile {
+  id: number;
+  email: string;
+  github_username: string;
+  github_id: number;
+  github_avatar_url: string;
+  admin: boolean;
+}
+
+export interface UsageStats {
+  comparisons_this_month: number;
+  analyses_this_month: number;
+  remaining_comparisons_today: number;
+  remaining_analyses_today: number;
+  total_cost_spent: string | number;
+}
+
+export interface RecentComparison {
+  id: number;
+  user_query: string;
+  repos_compared_count: number;
+  created_at: string;
+}
+
+export interface RecentAnalysis {
+  id: number;
+  repository_name: string;
+  model_used: string;
+  created_at: string;
+}
+
+export interface ProfileResponse {
+  data: {
+    user: UserProfile;
+    stats: UsageStats;
+    recent_comparisons: RecentComparison[];
+    recent_analyses: RecentAnalysis[];
+  };
+}
+
+/**
+ * Admin Stats Types
+ */
+
+export interface AISpending {
+  today: string | number;
+  this_week: string | number;
+  this_month: string | number;
+  total: string | number;
+  projected_month: string | number;
+}
+
+export interface Budget {
+  monthly_limit: string | number;
+  remaining: string | number;
+  percentage_used: string | number;
+  status: "healthy" | "warning" | "critical" | "exceeded";
+}
+
+export interface PlatformMetrics {
+  comparisons_count: number;
+  repositories_count: number;
+  total_views: number;
+}
+
+export interface SpendByModel {
+  model: string;
+  cost: string | number;
+  percentage: string | number;
+}
+
+export interface SpendByUser {
+  username: string;
+  cost: string | number;
+  percentage: string | number;
+}
+
+export interface AdminStatsResponse {
+  data: {
+    ai_spending: AISpending;
+    budget: Budget;
+    platform: PlatformMetrics;
+    spend_by_model: SpendByModel[];
+    spend_by_user: SpendByUser[];
+  };
+}

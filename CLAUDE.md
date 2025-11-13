@@ -127,6 +127,7 @@ import { ComparisonCard } from "@/components/comparison-card";
 - All API responses typed in `src/types/api.ts`
 - Zod schemas validate responses at runtime
 - Generic `apiFetch<T>()` provides type inference
+- Use `toNum()` utility (from `@/lib/utils`) for API decimal values that may be strings
 
 ## Critical Technical Details
 
@@ -160,7 +161,7 @@ src/
 ├── lib/                 # Shared utilities
 │   ├── api.ts          # apiFetch() helper
 │   ├── query-client.ts # TanStack Query configuration
-│   └── utils.ts        # cn() class merger utility
+│   └── utils.ts        # cn() class merger, toNum() number converter
 └── types/              # TypeScript type definitions
 ```
 

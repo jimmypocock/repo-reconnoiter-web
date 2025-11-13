@@ -8,6 +8,8 @@ import { ComparisonCreate } from "@/components/comparison-create";
 import { ComparisonSearch } from "@/components/comparison-search";
 import { Pagination } from "@/components/pagination";
 import { AuthButton } from "@/components/auth-button";
+import { ProfileLink } from "@/components/profile-link";
+import { AdminStatsLink } from "@/components/admin-stats-link";
 import { MissionControlLink } from "@/components/mission-control-link";
 
 export default function Home() {
@@ -50,6 +52,8 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              <ProfileLink />
+              <AdminStatsLink />
               <MissionControlLink />
               <AuthButton />
             </div>
