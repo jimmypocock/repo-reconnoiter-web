@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*",
         headers: [
+          // Override Vercel's default wildcard CORS for static assets
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "https://reporeconnoiter.com",
+          },
           // Prevent clickjacking attacks
           {
             key: "X-Frame-Options",
