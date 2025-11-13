@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Comparison } from "@/types/api";
 
 interface ComparisonCardProps {
@@ -12,7 +13,10 @@ export function ComparisonCard({ comparison }: ComparisonCardProps) {
   });
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-blue-200 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+    <Link
+      href={`/comparisons/${comparison.id}`}
+      className="block rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-blue-200 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
+    >
       {/* Header */}
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-zinc-100">
@@ -77,11 +81,13 @@ export function ComparisonCard({ comparison }: ComparisonCardProps) {
           </div>
           <div className="flex flex-wrap gap-2">
             {comparison.repositories.slice(0, 5).map((repo) => (
-              <a
+              <button
                 key={repo.id}
-                href={repo.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(repo.html_url, "_blank", "noopener,noreferrer");
+                }}
                 className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:border-blue-200 hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               >
                 <span className="font-mono">{repo.full_name}</span>
@@ -90,7 +96,7 @@ export function ComparisonCard({ comparison }: ComparisonCardProps) {
                     ⭐ {repo.stargazers_count.toLocaleString()}
                   </span>
                 )}
-              </a>
+              </button>
             ))}
             {comparison.repositories.length > 5 && (
               <span className="inline-flex items-center rounded-md px-3 py-1.5 text-xs text-slate-500 dark:text-zinc-400">
@@ -100,6 +106,6 @@ export function ComparisonCard({ comparison }: ComparisonCardProps) {
           </div>
         </div>
       )}
-    </div>
+    </Link>
   );
 }

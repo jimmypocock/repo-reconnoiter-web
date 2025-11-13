@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
+    const isProduction = process.env.NODE_ENV === "production";
+
+    // In development, skip strict CSP to allow Next.js dev tools (HMR, inline scripts, etc.)
+    if (!isProduction) {
+      return [];
+    }
+
+    // Production: Apply strict security headers
     return [
       {
         source: "/:path*",

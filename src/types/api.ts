@@ -50,6 +50,10 @@ export interface ComparisonsResponse {
   };
 }
 
+export interface ComparisonResponse {
+  data: Comparison;
+}
+
 export interface ComparisonsParams {
   search?: string;
   date?: "week" | "month";
@@ -57,3 +61,67 @@ export interface ComparisonsParams {
   page?: number;
   per_page?: number;
 }
+
+/**
+ * Comparison Creation Types
+ */
+
+export interface CreateComparisonRequest {
+  query: string;
+}
+
+export interface CreateComparisonResponse {
+  session_id: string;
+  status: "processing";
+  websocket_url: string;
+  status_url: string;
+}
+
+export type ComparisonStep =
+  | "parsing_query"
+  | "searching_github"
+  | "analyzing_repositories"
+  | "comparing_repositories";
+
+export interface ComparisonStatusResponse {
+  status: "processing" | "complete" | "error";
+  step?: ComparisonStep;
+  message?: string;
+  percentage?: number;
+  current?: number;
+  total?: number;
+  comparison_id?: number;
+  redirect_url?: string;
+  error?: string;
+}
+
+/**
+ * WebSocket Message Types
+ */
+
+export interface ProgressMessage {
+  type: "progress";
+  step: ComparisonStep;
+  message: string;
+  percentage: number;
+  current?: number;
+  total?: number;
+  timestamp: string;
+}
+
+export interface CompleteMessage {
+  type: "complete";
+  comparison_id: number;
+  redirect_url: string;
+  message: string;
+  timestamp: string;
+}
+
+export interface ErrorMessage {
+  type: "error";
+  message: string;
+  retry_data?: Record<string, unknown>;
+  timestamp: string;
+}
+
+export type ComparisonWebSocketMessage = ProgressMessage | CompleteMessage | ErrorMessage;

@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 
 const API_URL = process.env.REPO_RECONNOITER_API_URL;
 const API_KEY = process.env.API_KEY;
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL;
 
 /**
  * GET /comparisons
@@ -66,6 +67,80 @@ export async function GET(request: NextRequest) {
       {
         error: "Failed to fetch comparisons",
         message: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /comparisons
+ * Create a new comparison (async with real-time progress updates)
+ * Requires user authentication (JWT)
+ */
+export async function POST(request: NextRequest) {
+  try {
+    // Get the session for user JWT
+    const session = await getServerSession(authOptions);
+
+    // Check if user is authenticated
+    if (!session?.railsJwt) {
+      return NextResponse.json(
+        {
+          error: {
+            message: "User authentication required",
+            details: ["You must be signed in to create comparisons"],
+          },
+        },
+        { status: 401 }
+      );
+    }
+
+    // Parse request body
+    const body = await request.json();
+
+    console.log("Creating comparison with query:", body.query);
+
+    // Prepare headers with User-Agent (required for Cloudflare)
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      "User-Agent": "Mozilla/5.0 (compatible; RepoReconnoiter/1.0)",
+      Accept: "application/json",
+    };
+
+    // Add API key (app-level authentication)
+    if (API_KEY) {
+      headers["Authorization"] = `Bearer ${API_KEY}`;
+    }
+
+    // Add user JWT token (user-level authentication)
+    headers["X-User-Token"] = session.railsJwt;
+
+    // Forward request to Rails API
+    const response = await fetch(`${API_URL}/comparisons`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+    });
+
+    // Get response data
+    const data = await response.json();
+
+    // If successful, enhance response with client-facing WebSocket URL
+    if (response.status === 202 && WS_URL) {
+      data.websocket_url = WS_URL;
+    }
+
+    // Return response with same status code
+    return NextResponse.json(data, { status: response.status });
+  } catch (error) {
+    console.error("Error creating comparison:", error);
+    return NextResponse.json(
+      {
+        error: {
+          message: "Failed to create comparison",
+          details: ["An unexpected error occurred"],
+        },
       },
       { status: 500 }
     );
